@@ -1,23 +1,570 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
+
+
+  <!-- JSON-LD Structured Data for Insurance -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "InsuranceAgency",
+      "name": "치과실비보험 비교 사이트",
+      "url": "https://yourdomain.com",
+      "logo": "https://yourdomain.com/logo.png",
+      "description": "2026년 최신 치과실비보험 비교 견적을 제공합니다. 비갱신형 치아보험부터 임플란트 보장 범위까지 한눈에 비교하고 합리적인 가격으로 가입하세요.",
+      "areaServed": "대한민국 전역",
+      "provider": {
+        "@type": "Organization",
+        "name": "치과보험전문비교센터",
+        "url": "https://yourdomain.com"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "치과보험 상품 비교 목록",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "HealthPlan",
+              "name": "비갱신형 치아보험"
+            },
+            "price": "50000",
+            "priceCurrency": "KRW",
+            "description": "장기적인 관점에서 유리한 치아보험입니다. 초기 보험료는 높지만 갱신 없이 납입하는 방식입니다."
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "HealthPlan",
+              "name": "갱신형 치아보험"
+            },
+            "price": "30000",
+            "priceCurrency": "KRW",
+            "description": "초기 보험료가 저렴한 대신 주기적으로 보험료가 갱신되는 치아보험입니다."
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "HealthPlan",
+              "name": "고령자 치아보험"
+            },
+            "price": "60000",
+            "priceCurrency": "KRW",
+            "description": "만 60세 이상 고령층을 위한 임플란트, 틀니 집중 보장형 보험입니다."
+          }
+        ]
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: "Noto Sans KR", sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.8;
+      background-color: #f7f9fc; /* 부드러운 배경색 */
+      color: #333;
+      word-break: keep-all; /* 한글 단어 단위 줄바꿈 */
+    }
+    header {
+      background-color: #007bff; /* 신뢰감을 주는 파란색 */
+      color: white;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin: 0.5rem 0 1rem;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+    header p {
+      font-size: 1.2rem;
+      margin-top: 0;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease, transform 0.3s ease;
+      font-size: 1.1rem;
+    }
+    nav a:hover {
+      color: #ffc107; /* 밝은 노란색 */
+      transform: translateY(-2px);
+    }
+    main {
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.08);
+      border-radius: 12px;
+    }
+    h1, h2, h3 {
+      color: #003366; /* 진한 남색 */
+      font-weight: 700;
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+    }
+    h2 {
+      font-size: 2.2rem;
+      border-bottom: 3px solid #e0eaf1;
+      padding-bottom: 1rem;
+    }
+    h3 {
+      font-size: 1.8rem;
+      color: #0056b3;
+      margin-top: 2rem;
+    }
+    p {
+      text-align: justify;
+      margin-bottom: 1.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 1.2rem;
+      border: 1px solid #e0e0e0;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    tr:nth-child(even) {
+      background-color: #f8faff; /* 줄무늬 배경 */
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: #dc3545; /* 강조색 */
+      color: white;
+      font-weight: 700;
+      padding: 1rem 3rem;
+      border-radius: 50px;
+      text-decoration: none;
+      margin: 2.5rem 0;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      text-align: center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .cta-button:hover {
+      background-color: #c82333;
+      transform: translateY(-2px);
+    }
+    .keyword-tags {
+      margin: 2rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .keyword-tags a {
+      background-color: #e0f0ff;
+      color: #0066cc;
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .keyword-tags a:hover {
+      background-color: #b3d1ff;
+      transform: scale(1.05);
+    }
+    .info-box {
+      background-color: #e6f7ff; /* 연한 파란색 배경 */
+      border-left: 5px solid #007bff;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .info-box h4 {
+      margin-top: 0;
+      color: #0056b3;
+      font-weight: 700;
+    }
+    .warning-box {
+      background-color: #fff3e6; /* 연한 주황색 경고 */
+      border-left: 5px solid #ff9900;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #555;
+    }
+    .accordion dl dt {
+      font-weight: 700;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      color: #0066cc;
+      background-color: #f5fafd;
+      padding: 1rem;
+      border-left: 5px solid #0066cc;
+      transition: background-color 0.3s ease;
+      border-radius: 4px;
+    }
+    .accordion dl dt:hover {
+      background-color: #e6f2ff;
+    }
+    .accordion dl dd {
+      margin: 0.5rem 0 1.5rem 1rem;
+      padding-left: 1rem;
+      border-left: 2px dashed #ccc;
+      display: none;
+    }
+    .accordion dl dt.active + dd {
+      display: block;
+    }
+    .external-link {
+      display: inline-block;
+      color: #0066cc;
+      font-weight: 500;
+      margin-top: 1rem;
+      text-decoration: underline;
+    }
+    /* Cost Calculation Form Styling */
+    .calc-form {
+      background-color: #f9f9f9;
+      padding: 2rem;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      margin: 2rem 0;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    .form-group input[type="radio"], .form-group input[type="text"] {
+      margin-right: 1rem;
+    }
+    .calc-button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .calc-button:hover {
+      background-color: #218838;
+    }
+    .result-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: #e9ecef;
+      border-radius: 8px;
+      display: none; /* Initial state */
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #777;
+      background-color: #e0eaf1;
+      margin-top: 3rem;
+      border-top: 1px solid #d0dbe4;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>치과실비보험 비교 사이트 | 2026년 최신 견적 가이드</h1>
+    <p>치아 치료 비용, 이제 부담 없이 해결하세요! 비갱신형 치아보험부터 임플란트 보장까지 전문가의 1:1 비교 견적을 무료로 제공합니다.</p>
     <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
+      <ul>
+        <li><a href="#가입조건">가입 조건</a></li>
+        <li><a href="#보장내용">보장 내용</a></li>
+        <li><a href="#비교견적">비교 견적</a></li>
+        <li><a href="#비용절약">비용 절약 팁</a></li>
+        <li><a href="#자주묻는질문">자주 묻는 질문</a></li>
+      </ul>
     </nav>
-    <main>
-      <h1>Home page</h1>
+  </header>
+
+  <main>
+    <section id="가입조건">
+      <h2>치과실비보험, 왜 필요한가요?</h2>
+      <p>치과 치료는 건강보험 적용(급여)이 되는 항목보다 **비급여 항목**이 훨씬 많습니다. 대표적인 비급여 항목인 **임플란트, 크라운, 인레이** 등은 개인이 전액 부담해야 하므로 한 번 치료할 때 수백만 원의 **치과 치료 비용**이 발생할 수 있습니다. 2026년 기준으로도 비급여 항목에 대한 정부의 직접적인 지원은 제한적이며, **국민건강보험공단**의 보장 범위는 꾸준히 확대되고 있지만, 여전히 치과 치료비 지출은 가계 경제에 큰 부담으로 작용합니다.</p>
+
+      <div class="info-box">
+        <h4>국민건강보험과 치과실비보험의 차이점</h4>
+        <p>많은 분들이 **치과실비보험**이라는 용어를 혼동합니다. '실비(실손의료보험)'는 상해나 질병으로 발생한 실제 의료비를 보장하는 보험입니다. 하지만 2009년 10월 이후 출시된 실손보험부터는 **치과 치료(비급여)** 항목이 보장 대상에서 제외되었습니다. 따라서 치과 치료비 보장을 위해서는 별도의 **치아보험**에 가입해야 합니다. 흔히 **치과실비**라고 부르는 것은 비급여 치과 치료비를 보장하는 '정액 보장형 치아보험'을 의미합니다.</p>
+      </div>
+
+      <p>치아보험은 크게 충치 치료(보존 치료)와 임플란트/크라운(보철 치료)을 보장합니다. **보존 치료**는 충치를 제거하고 때우는 인레이, 온레이, 레진 등을 의미하며, **보철 치료**는 치아를 완전히 대체하는 임플란트, 틀니, 브릿지 등을 의미합니다. 특히 **임플란트 비용**은 개당 100~200만원을 호가하기 때문에, **치아보험 가입**을 통해 사전에 대비하는 것이 현명합니다. 저희는 **비갱신형 치아보험**을 포함한 다양한 상품을 비교하여 최적의 **치아보험 추천**을 해드립니다.</p>
+
+      <div class="keyword-tags" aria-label="연관 검색 키워드">
+        <a href="#비용절약">치아보험 비용</a>
+        <a href="#보장내용">임플란트 보장</a>
+        <a href="#가입조건">치아보험 가입 조건</a>
+        <a href="#비교견적">치과보험 비교</a>
+        <a href="#자주묻는질문">치과실비</a>
+        <a href="#비교견적">비갱신형 치아보험</a>
+        <a href="#비용절약">치아보험 저렴한곳</a>
+        <a href="#보장내용">크라운 보장</a>
+        <a href="#비교견적">치아보험 순위</a>
+        <a href="#비교견적">치아보험 장점 단점</a>
+        <a href="#비용절약">치아보험 내돈내산 후기</a>
+        <a href="#자주묻는질문">치아보험 면책기간</a>
+        <a href="#보장내용">임플란트 틀니 브릿지</a>
+      </div>
+    </section>
+
+    ---
+
+    <section id="보장내용">
+      <h2>핵심 보장 분석: 임플란트, 크라운 보장 내용과 면책기간</h2>
+      <p>**치과실비보험**의 보장 내용을 이해하는 것은 **가입** 전에 반드시 필요한 과정입니다. 치아보험은 일반적인 실비보험과는 달리 **면책기간**과 **감액기간**이라는 독특한 규정을 가지고 있습니다. 이 기간 동안에는 보험금을 받지 못하거나 일부만 받을 수 있으므로, **치아보험 가입** 시점에 매우 중요한 고려 사항입니다.</p>
+
+      <h3>면책기간과 감액기간의 이해</h3>
+      <p>대부분의 **치아보험 상품**에는 면책기간이 존재합니다. 이는 보험 가입 직후부터 일정 기간(보통 90일 또는 180일) 동안은 보장을 받을 수 없는 기간입니다. 면책기간을 두는 이유는 보험 가입자가 이미 치아 질병을 앓고 있음에도 보험금을 노리고 가입하는 것을 방지하기 위함입니다. 면책기간이 지나면 **감액기간**이 적용됩니다. 감액기간(보통 1년 또는 2년) 동안은 보험금의 50%만 지급되며, 이 기간이 지나야 100% 보장을 받을 수 있습니다. **치아보험 가입**을 고려한다면 이러한 기간을 염두에 두고 미리 가입하는 것이 유리합니다.</p>
+
+      <h3>주요 치료 항목별 보장 금액 비교 (2026년 기준)</h3>
+      <p>**치과보험**에서 가장 중요한 부분은 **보철 치료(임플란트, 브릿지, 틀니)**와 **보존 치료(인레이, 온레이, 크라운)**의 보장 금액입니다. **임플란트 비용**은 보철 치료 중 가장 비싸기 때문에 보장 한도를 높게 설정하는 것이 좋습니다. 아래 표는 일반적인 치아보험의 보장 금액 예시입니다. 상품마다 금액은 상이할 수 있으므로 **치아보험 비교견적**이 필수입니다.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>치료 종류</th>
+            <th>치료 항목</th>
+            <th>보장 금액 (평균)</th>
+            <th>보장 특징</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>보존 치료</strong></td>
+            <td>레진, 인레이/온레이 (충치 치료)</td>
+            <td>10만원 ~ 30만원</td>
+            <td>횟수 제한이 있는 경우가 많음. 레진은 횟수 제한 없이 보장하는 상품도 있음.</td>
+          </tr>
+          <tr>
+            <td><strong>보존 치료</strong></td>
+            <td>크라운 (씌우는 치료)</td>
+            <td>30만원 ~ 50만원</td>
+            <td>가장 빈번하게 발생하는 치료 중 하나. 보장 한도가 중요함.</td>
+          </tr>
+          <tr>
+            <td><strong>보철 치료</strong></td>
+            <td>임플란트, 브릿지</td>
+            <td>100만원 ~ 200만원 (개당)</td>
+            <td>고액 치료로 가장 중요한 보장 항목. 연간 횟수 제한(3개)이 있음.</td>
+          </tr>
+          <tr>
+            <td><strong>보철 치료</strong></td>
+            <td>틀니</td>
+            <td>100만원 ~ 150만원</td>
+            <td>고령자를 위한 보장. 5년당 1회 보장 조건이 흔함.</td>
+          </tr>
+        </tbody>
+      </table>
+      <a href="https://www.hira.or.kr/" target="_blank" rel="noopener noreferrer" class="external-link">국민건강보험공단 치과 치료 급여 기준 확인하기</a>
+    </section>
+
+    ---
+
+    <section id="비교견적">
+      <h2>치과실비보험 비교 가이드: 갱신형 vs 비갱신형, A사 vs B사</h2>
+      <p>**치아보험 가입** 시 가장 많이 고민하는 부분은 **갱신형과 비갱신형** 선택입니다. 두 방식은 **치아보험료**와 장기적인 관점에서 큰 차이를 보이므로, 본인의 나이, 경제 상황, 예상 가입 기간을 고려하여 신중하게 선택해야 합니다. 또한, 단순히 저렴한 **치아보험 가격**만 보고 선택하기보다는 **보장 내용**을 꼼꼼히 **비교**해야 합니다.</p>
+
+      <h3>갱신형 치아보험의 장단점</h3>
+      <div class="info-box">
+        <h4>장점:</h4>
+        <p>초기 **보험료**가 매우 저렴합니다. 나이가 젊을 때 가입하면 초기 **치아보험 비용** 부담이 적어 가성비가 좋습니다. 단기적으로 보장을 받고 싶거나, 경제 상황이 여의치 않을 때 적합한 선택입니다.</p>
+        <h4>단점:</h4>
+        <p>일정 주기(보통 5년 또는 10년)마다 보험료가 **갱신**됩니다. 갱신 시점에는 나이가 증가하고 질병 발생률이 높아져 보험료가 인상됩니다. 장기적으로 봤을 때 총 납입액은 **비갱신형**보다 높아질 수 있습니다.</p>
+      </div>
+
+      <h3>비갱신형 치아보험의 장단점</h3>
+      <div class="info-box">
+        <h4>장점:</h4>
+        <p>보험료가 처음 가입할 때 결정된 후 만기까지 변동 없이 유지됩니다. **치아보험 가격** 인상에 대한 걱정 없이 장기적으로 안정적인 관리가 가능합니다. 특히 40대~50대 이상 연령층에서 **비갱신형 치아보험**을 선호하는 경향이 있습니다. **치아보험 가입** 시점에 보험료가 확정되므로 총 납입액을 예측하기 쉽습니다.</p>
+        <h4>단점:</h4>
+        <p>초기 보험료가 갱신형보다 상대적으로 높습니다. 젊은 나이에 가입하더라도 초기 **치과실비보험 비용**에 부담을 느낄 수 있습니다. 만기 시점이 정해져 있어 보장이 끝난 후 재가입해야 할 수 있습니다.</p>
+      </div>
+
+      <h3>나이대별 추천 전략</h3>
+      <ul>
+        <li><strong>20~30대:</strong> 갱신형 치아보험으로 저렴하게 시작하거나, 비갱신형을 선택해 장기적인 혜택을 누릴 수 있습니다. 초기 **치아보험료**가 저렴한 상품 위주로 **비교**해 보세요.</li>
+        <li><strong>40~50대:</strong> 치과 치료 수요가 늘어나는 시기입니다. 갱신형의 보험료 인상 폭이 클 수 있으므로, **비갱신형 치아보험**을 우선적으로 고려하는 것이 좋습니다. **임플란트 보장** 한도를 최대로 설정하는 것이 중요합니다.</li>
+        <li><strong>60대 이상:</strong> 치아 건강이 급격히 나빠지는 시기입니다. 만기 연령이 길고, 보철 치료(틀니) 보장이 집중된 상품을 찾아야 합니다.</li>
+      </ul>
+
+      <p>저희 **치과실비보험 비교 사이트**에서는 다양한 보험사의 **치아보험 순위**와 상품을 비교하여 고객님의 연령대와 상황에 맞는 **치아보험 추천**을 해드립니다. **내돈내산**으로 유명한 **치과보험 후기**도 참고하여 현명한 선택을 돕겠습니다.</p>
+      <a href="https://www.fss.or.kr/" target="_blank" rel="noopener noreferrer" class="external-link">금융감독원 금융소비자정보 포털 파인(FINE)에서 치아보험 정보 확인하기</a>
+    </section>
+
+    ---
+
+    <section id="비용절약">
+      <h2>치과실비보험 비용 절약 팁 및 가입 시 주의사항</h2>
+      <p>치아보험 가입 시 **보험료**를 절약하고 불필요한 지출을 막는 몇 가지 방법이 있습니다. **치아보험 가격**은 상품의 종류, 가입자의 나이, 보장 범위에 따라 천차만별입니다. **저렴한곳**을 찾는 것보다 **가성비** 좋은 상품을 찾는 것이 중요합니다.</p>
+
+      <h3>1. 보장 범위와 한도를 명확히 설정하세요.</h3>
+      <p>무조건 **보장 범위**가 넓다고 좋은 것은 아닙니다. 자신에게 필요한 **치료 항목**을 파악하여 보장 한도를 조절하는 것이 **치아보험 비용**을 절약하는 핵심입니다. 예를 들어, 보철 치료보다는 보존 치료(크라운, 레진)가 더 많이 필요하다고 판단되면 보존 치료 한도를 높이는 상품을 선택할 수 있습니다. 반대로 **임플란트**가 걱정된다면 **임플란트 보장**에 집중하세요. 불필요한 특약(치아 교정, 미용 목적 치료 등)을 추가하지 않는 것도 중요합니다.</p>
+
+      <h3>2. 비갱신형을 선택할 경우 일찍 가입하는 것이 유리합니다.</h3>
+      <p>**비갱신형 치아보험**은 가입 당시 나이가 어릴수록 **치아보험료**가 저렴합니다. 나이가 들면 보험료가 비싸지고, **가입 조건**이 까다로워질 수 있습니다. 특히 40대 이후에는 치아 질환 이력이 있으면 **가입**이 어려울 수도 있습니다. 치아 건강이 좋을 때 **치과실비보험 가입**을 서두르는 것이 장기적인 **비용 절약**의 지름길입니다.</p>
+
+      <h3>3. 꼼꼼한 비교 견적을 통해 숨은 혜택을 찾으세요.</h3>
+      <p>A사, B사, C사 등 여러 보험사의 상품을 **비교 견적**하여 자신에게 맞는 상품을 찾아야 합니다. 단순히 **치아보험 가격**만 보고 선택하면 나중에 보장받지 못하는 항목이 있을 수 있습니다. 저희 **치과실비보험 비교 사이트**에서는 **치아보험 순위** 및 상품별 **장단점**을 투명하게 공개하고, **치아보험 추천**을 해드립니다. **내돈내산 후기**를 참고하여 실제로 보장을 잘 받았는지 확인하는 것도 중요합니다.</p>
+
+      <h3>4. 면책기간 중에도 가입 가능한가요?</h3>
+      <p>현재 치과 치료 중이거나 치아 관련 질병을 앓고 있다면 보험 **가입 조건**이 까다로워지거나 **가입**이 거절될 수 있습니다. **치아보험**은 일반적으로 고지의무가 있으며, 가입 전 1년 이내 치과 치료 사실을 숨기면 **계약 해지** 사유가 될 수 있습니다. 하지만 최근에는 **무진단형 치아보험**이나, 경증 질환에 대해 고지 의무를 완화해주는 상품도 출시되고 있습니다. 치료 이력이 있다면 전문 상담사와 상담하여 **가입 조건**을 확인해야 합니다.</p>
+      <a href="https://www.kca.go.kr/home/main.do" target="_blank" rel="noopener noreferrer" class="external-link">한국소비자원 보험 피해 예방 정보 확인하기</a>
+    </section>
+
+    ---
+
+    <section id="자주묻는질문" class="accordion">
+      <h2>자주 묻는 질문 (FAQ)</h2>
+      <dl>
+        <dt tabindex="0" aria-expanded="false"><strong>Q. 치아보험 면책기간 중 치료받으면 어떻게 되나요?</strong></dt>
+        <dd><strong>A.</strong> 면책기간은 보험 가입 후 일정 기간 동안 보장이 적용되지 않는 기간입니다. 면책기간 중 발생한 치아 질환에 대해서는 보장을 받을 수 없습니다. 만약 면책기간이 지난 후에 해당 질환의 치료가 계속된다면, 면책기간 이후의 치료부터 보장을 받을 수 있습니다. **치아보험 가입** 시 면책기간을 반드시 확인하세요.</dd>
+
+        <dt tabindex="0" aria-expanded="false"><strong>Q. 임플란트 2개를 하면 보장도 2배로 받나요?</strong></dt>
+        <dd><strong>A.</strong> **치아보험 상품**에 따라 다릅니다. 대부분의 **치아보험**은 임플란트 개당 보장 금액을 지급하며, 연간 보장 한도(보통 3개)가 정해져 있습니다. 예를 들어, 보장 한도가 연간 3개라면 한 해에 3개의 임플란트까지 보장을 받을 수 있습니다. **임플란트 비용**이 개당 150만원일 경우, 3개를 하면 총 450만원을 보장받을 수 있습니다. 정확한 **보장 금액**은 **치아보험 견적** 시 반드시 확인해야 합니다.</dd>
+
+        <dt tabindex="0" aria-expanded="false"><strong>Q. 치과 치료 이력이 있으면 치아보험 가입이 어렵나요?</strong></dt>
+        <dd><strong>A.</strong> 아닙니다. 최근에는 치아 치료 이력이 있어도 **가입**이 가능한 **무진단형 치아보험**이 있습니다. 다만, 과거 1년 이내 치과 치료 여부, 5년 이내 치아 상실 여부 등 고지사항이 있으므로, 정확한 답변을 통해 **가입 조건**을 충족해야 합니다. 전문 상담사와 상담하면 본인의 상황에 맞는 **치아보험 추천**을 받을 수 있습니다.</dd>
+
+        <dt tabindex="0" aria-expanded="false"><strong>Q. 치과실비보험은 가입 후 바로 효력이 발생하나요?</strong></dt>
+        <dd><strong>A.</strong> 앞서 설명했듯이, 면책기간이 존재합니다. 일반적으로 보존 치료는 90일, 보철 치료(임플란트)는 1년(갱신형) 또는 2년(비갱신형)의 면책기간이 있습니다. 이 기간 동안은 보장이 제한됩니다. **가입** 후 일정 기간이 지나야 보장을 받을 수 있습니다.</dd>
+
+        <dt tabindex="0" aria-expanded="false"><strong>Q. 치과실비보험 가입 시, 어떤 서류가 필요한가요?</strong></dt>
+        <dd><strong>A.</strong> **무진단형 치아보험**의 경우 별도 서류 없이 전화나 온라인으로 간편하게 가입이 가능합니다. **진단형 치아보험**의 경우 치과 검진 서류가 필요할 수 있습니다. 대부분의 가입자가 무진단형을 선택합니다. **가입** 시 고지사항에 대한 정확한 답변만 하면 됩니다.</dd>
+      </dl>
+    </section>
+
+    ---
+    
+    <section id="비용계산">
+      <h2>나의 예상 치아보험료 계산해보기</h2>
+      <p>본인의 나이, 원하는 보장 범위 등을 입력하시면 **치과실비보험**의 대략적인 **예상 금액**을 계산해볼 수 있습니다. 아래 양식에 따라 정보를 입력하시면 **치아보험료**를 간편하게 **비교**해 드립니다. 정확한 **견적**은 전문 상담사를 통해 확인하실 수 있습니다.</p>
+      <div class="calc-form">
+        <div class="form-group">
+          <label for="age">나이:</label>
+          <input type="number" id="age" name="age" min="1" max="100" placeholder="만 나이를 입력하세요">
+        </div>
+        <div class="form-group">
+          <label for="gender">성별:</label>
+          <input type="radio" id="male" name="gender" value="male"> <label for="male">남성</label>
+          <input type="radio" id="female" name="gender" value="female"> <label for="female">여성</label>
+        </div>
+        <div class="form-group">
+          <label>주요 보장 희망 항목:</label><br>
+          <input type="checkbox" id="implant" name="coverage" value="implant"> <label for="implant">임플란트</label>
+          <input type="checkbox" id="crown" name="coverage" value="crown"> <label for="crown">크라운</label>
+          <input type="checkbox" id="filling" name="coverage" value="filling"> <label for="filling">충치 레진/인레이</label>
+        </div>
+        <div class="form-group">
+          <label>보험 갱신 여부:</label><br>
+          <input type="radio" id="renewable" name="type" value="renewable"> <label for="renewable">갱신형 (저렴한 초기 비용)</label>
+          <input type="radio" id="nonrenewable" name="type" value="nonrenewable"> <label for="nonrenewable">비갱신형 (장기 안정)</label>
+        </div>
+        <button type="button" class="calc-button" onclick="calculateCost()">예상 보험료 계산하기</button>
+        <div id="result" class="result-section"></div>
+      </div>
+    </section>
+
+    <script>
+      function calculateCost() {
+        const age = document.getElementById('age').value;
+        const gender = document.querySelector('input[name="gender"]:checked');
+        const implant = document.getElementById('implant').checked;
+        const crown = document.getElementById('crown').checked;
+        const filling = document.getElementById('filling').checked;
+        const type = document.querySelector('input[name="type"]:checked');
+
+        if (!age || !gender || !type) {
+          alert('모든 필수 항목을 입력해주세요.');
+          return;
+        }
+
+        let baseCost = 20000;
+        let estimateText = "";
+
+        if (age >= 40) {
+          baseCost += 15000;
+        } else if (age >= 50) {
+          baseCost += 25000;
+        }
+
+        if (implant) baseCost += 10000;
+        if (crown) baseCost += 5000;
+        if (filling) baseCost += 3000;
+
+        if (type.value === "nonrenewable") {
+          baseCost += 10000;
+        }
+
+        const minCost = baseCost;
+        const maxCost = baseCost + 10000;
+
+        estimateText = `
+          <p><strong>고객님의 예상 치아보험료 견적 결과:</strong></p>
+          <ul>
+            <li><strong>예상 월 보험료:</strong> ${minCost.toLocaleString()}원 ~ ${maxCost.toLocaleString()}원</li>
+            <li><strong>적용 보장:</strong> 임플란트 보장 ${implant ? '포함' : '미포함'}, 크라운 보장 ${crown ? '포함' : '미포함'}, 충치 치료 ${filling ? '포함' : '미포함'}</li>
+            <li><strong>상품 유형:</strong> ${type.value === "renewable" ? '갱신형' : '비갱신형'}</li>
+            <li><strong>참고:</strong> 위 금액은 대략적인 예상치이며, 실제 견적은 고지사항 및 보험사별 상품에 따라 달라질 수 있습니다.</li>
+          </ul>
+        `;
+
+        document.getElementById('result').innerHTML = estimateText;
+        document.getElementById('result').style.display = 'block';
+      }
+    </script>
+    
+    <section id="예약문의">
+      <h2>1:1 치과실비보험 무료 견적 신청</h2>
+      <p>복잡한 **치과실비보험 비교**를 전문가에게 맡기세요. 고객님의 상황에 맞는 최적의 **치아보험 추천**을 해드립니다. **2026년** 최신 정보를 바탕으로 A사, B사, C사 등 여러 보험사의 상품을 **비교 분석**하여 가장 합리적인 **치아보험 가격**을 안내해 드립니다. **가입** 전에 반드시 **무료 상담**을 받아보세요.</p>
+      <a href="https://yourdomain.com/quote-form" class="cta-button" aria-label="치과실비보험 무료 견적 받기">1:1 무료 견적 상담 신청하기</a>
+      <p>상담 신청 시, 가입부터 청구까지 모든 과정을 책임지고 도와드립니다. **치과 치료 비용** 부담을 줄여드립니다.</p>
+    </section>
+    
     </main>
-  </body>
-</html>
+
+  <script>
+    // FAQ 아코디언 기능 (접기/펼치기)
+    document.querySelectorAll('.accordion dl dt').forEach((dt) => {
+      dt.addEventListener('click', () => {
+        const expanded = dt.getAttribute('aria-expanded') === 'true' || false;
+        dt.setAttribute('aria-expanded', !expanded);
+        dt.classList.toggle('active');
+      });
+      dt.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          dt.click();
+        }
+      });
+    });
+  </script>
+
+  
